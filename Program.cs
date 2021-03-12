@@ -2,31 +2,41 @@
 
 namespace EmpWageDay6
 {
-    class CompanyEmpWage
+    class EmpWageBuilder : IComputeEmpWage
     {
-        public string company;
-        public int empRatePerHour;
-        public int numOfWorkingDays;
-        public int maxHoursPerMonth;
-        public int totalEmpWage;
+        public const int IS_PART_TIME = 1;
+        public const int IS_FULL_TIME = 2;
 
-        public CompanyEmpWage(string company, int empRatePerHour, int numOfWorkingDays, int maxHoursPerMonth)
+        private LinkedList<CompanyEmpWage> companyEmpWageList;
+        private Dictionary<string, CompanyEmpWage> companyToEmpWageMap;
+
+        public EmpWageBuilder()
         {
-            this.company = company;
-            this.empRatePerHour = empRatePerHour;
-            this.numOfWorkingDays = numOfWorkingDays;
-            this.maxHoursPerMonth = maxHoursPerMonth;
+            this.companyEmpWageList = new LinkedList<CompanyEmpWage>();
+            this.companyToEmpWageMap = new Dictionary<string, CompanyEmpWage>();
+
         }
-
-        public void setTotalEmpWage(int totalEmpWage)
+        public void addCompanyEmpWage(string company, int empRatePerHour, int numOfWorkingDays, int maxHoursPerMonth)
         {
-            this.totalEmpWage = totalEmpWage;
+            CompanyEmpWage companyEmpWage = new CompanyEmpWage(company, empRatePerHour, numOfWorkingDays, maxHoursPerMonth);
+            this.companyEmpWageList.AddLast(companyEmpWage);
+            this.companyToEmpWageMap.Add(company, companyEmpWage);
         }
-
-        public string toString()
+        public void computeEmpWage()
         {
-            return "Total Emp Wage for company : " + this.company + " is : " + this.totalEmpWage;
+            foreach (CompanyEmpWage companyEmpWage in this.companyEmpWageList)
+            {
+                companyEmpWage.setTotalEmpWage(this.ComputeEmpWage(companyEmpWage));
+                Console.WriteLine(companyEmpWage.toString());
+
+            }
+        }
+        private int computeEmpWage(CompanyEmpWage companyEmpWage);
+
+        public int getTotalWage(string company)
+        {
+            return this.companyToEmpWageMap[company].totalEmpWage;
         }
     }
 }
-  
+
