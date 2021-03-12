@@ -2,15 +2,12 @@
 
 namespace EmpWageDay6
 {
-    class Program
+    public interface IComputeEmpWage
     {
-        EmpWageBuilderArray empWageBuilder = new EmpWageBuilderArray();
-        empWageBuilder.addCompanyEmpWage("DMart", 20, 2, 10);
-            empWageBuilder.addCompanyEmpWage("Reliance", 10, 4, 20);
-            empWageBuilder.computeEmpWage();
-            Console.ReadKey();
-			}
+        public void addCompanyEmpWage(string company, int empRatePerHour, int numOfWorkingDays, int maxHoursPerMonth);
 
-		}
-    
+        public void computeEmpWage();
+        public int getTotalWage(string company);
 
+    }
+}
